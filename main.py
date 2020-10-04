@@ -30,10 +30,9 @@ def create():
     Add a donation page
     '''
     if request.method == 'POST':
-        if Donor.select().where(Donor.name == request.form['donor']).exists():
-            donor = Donor.select().where(Donor.name == request.form[
-                'donor']).get()
-        else:
+        try:
+            donor = Donor.get(Donor.name == request.form['donor'])
+        except Donor.DoesNotExist:
             donor = Donor(name=request.form['donor'])
             donor.save()
 
